@@ -1,0 +1,22 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "twodogwalker@gmail.com",
+    "longName": "Ux",
+    "projectType": "native",
+    "resources": {
+        "media": []
+    },
+    "sdkVersion": "3",
+    "shortName": "Ux",
+    "targetPlatforms": [
+        "basalt"
+    ],
+    "uuid": "72645944-206b-4836-9f42-4bbdffee50ef",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": true
+    }
+}
