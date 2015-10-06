@@ -6,6 +6,7 @@
 static Window *s_main_window;
 static TextLayer *s_timeprompt_layer;
 static TextLayer *s_time_layer;
+static TextLayer *s_dateprompt_layer;
 
 static void update_time() {
   // Get a tm structure
@@ -43,14 +44,21 @@ static void main_window_load(Window *window) {
   text_layer_set_background_color(s_time_layer, GColorBlack);
   text_layer_set_text_color(s_time_layer, GColorGreen);
   text_layer_set_text(s_time_layer, "00:00");
-
-  // Improve the layout to be more like a watchface
   text_layer_set_font(s_time_layer, fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD));
   text_layer_set_text_alignment(s_time_layer, GTextAlignmentLeft);
 
+  // create date prompt layer 
+  s_dateprompt_layer = text_layer_create(GRect(2, 2, 140, 50));
+  text_layer_set_background_color(s_dateprompt_layer, GColorBlack);
+  text_layer_set_text_color(s_dateprompt_layer, GColorGreen);
+  text_layer_set_text(s_dateprompt_layer, "root ~$ date");
+  text_layer_set_font(s_dateprompt_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28));
+  text_layer_set_text_alignment(s_dateprompt_layer, GTextAlignmentLeft);
+  
   // Add it as a child layer to the Window's root layer
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_timeprompt_layer));
   layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
+
 
   
   // Make sure the time is displayed from the start
@@ -66,7 +74,12 @@ static void main_window_unload(Window *window) {
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
   update_time();
 }
-  
+
+void tap_handler(AccelAxisType axis, int32_t direction){
+  layer_remove_from_parent(text_layer_get_layer(s_timeprompt_layer));
+  layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_dateprompt_layer));
+}
+
 static void init() {
   // Create main Window element and assign to pointer
   s_main_window = window_create();
@@ -83,11 +96,13 @@ static void init() {
   
   // Register with TickTimerService
   tick_timer_service_subscribe(MINUTE_UNIT, tick_handler);
+  accel_tap_service_subscribe(tap_handler);
 }
 
 static void deinit() {
   // Destroy Window
   window_destroy(s_main_window);
+  accel_tap_service_unsubscribe();
 }
 
 int main(void) {
