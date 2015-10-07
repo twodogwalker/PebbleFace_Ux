@@ -7,7 +7,18 @@
     "longName": "Ux",
     "projectType": "native",
     "resources": {
-        "media": []
+        "media": [
+            {
+                "characterRegex": "[0-9:A-Za-z$~. ]",
+                "file": "fonts/VERAMONO_BOLD_20",
+                "name": "VERAMONO_BOLD_20",
+                "targetPlatforms": [
+                    "basalt"
+                ],
+                "trackingAdjust": -3,
+                "type": "font"
+            }
+        ]
     },
     "sdkVersion": "3",
     "shortName": "Ux",
