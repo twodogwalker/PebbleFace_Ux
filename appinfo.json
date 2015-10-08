@@ -4,12 +4,12 @@
         ""
     ],
     "companyName": "twodogwalker@gmail.com",
-    "longName": "Ux",
+    "longName": "Unix style",
     "projectType": "native",
     "resources": {
         "media": [
             {
-                "characterRegex": "[0-9:A-Za-z$~. ]",
+                "characterRegex": "[0-9:A-Za-z$~.% ]",
                 "file": "fonts/VERAMONO_BOLD_20",
                 "name": "VERAMONO_BOLD_20",
                 "targetPlatforms": [
