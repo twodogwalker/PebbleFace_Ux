@@ -73,14 +73,14 @@ static void main_window_load(Window *window) {
   text_layer_set_text_alignment(s_network_layer, GTextAlignmentLeft);
   
   // Add it as a child layer to the Window's root layer, some commented for debug purposes
-  //layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_timeprompt_layer));
-  //layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_dateprompt_layer));
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_date_layer));
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_loadprompt_layer));
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_load_layer));
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_networkprompt_layer));
-  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_network_layer));
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_timeprompt_layer));
+  layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_time_layer));
+  //layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_dateprompt_layer));
+  //layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_date_layer));
+  //layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_loadprompt_layer));
+  //layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_load_layer));
+  //layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_networkprompt_layer));
+  //layer_add_child(window_get_root_layer(window), text_layer_get_layer(s_network_layer));
   
   // Make sure the time is displayed from the start
   showtime = true;
@@ -108,26 +108,29 @@ static void main_window_unload(Window *window) {
 }
 
 void tap_handler(AccelAxisType axis, int32_t direction){
-  struct TextLayer *timeLayers[] = {s_timeprompt_layer, s_time_layer};
-  struct TextLayer *otherLayers[] = {s_dateprompt_layer, s_date_layer, s_loadprompt_layer, s_load_layer,
-                                   s_networkprompt_layer, s_network_layer};
+  //struct TextLayer *timeLayers[] = {s_timeprompt_layer, s_time_layer};
+  //struct TextLayer *otherLayers[] = {s_dateprompt_layer, s_date_layer, s_loadprompt_layer, s_load_layer,
+  //                                 s_networkprompt_layer, s_network_layer};
   // if time is currently shown, remove each timeLayer, and add all others
   if(showtime) {
-    for(unsigned int i = 0; i < sizeof(timeLayers); i++) {
-      layer_remove_from_parent(text_layer_get_layer(timeLayers[i]));
-    }
-    for(unsigned int j = 0; j < sizeof(otherLayers); j++) {
-      layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(otherLayers[j]));
-    }
+    layer_remove_from_parent(text_layer_get_layer(s_timeprompt_layer));
+    layer_remove_from_parent(text_layer_get_layer(s_time_layer));
+    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_dateprompt_layer));
+    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_date_layer));
+    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_loadprompt_layer));
+    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_load_layer));
+    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_networkprompt_layer));
+    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_network_layer));
     showtime = false;
   } else {
-    // if time is currently NOT shown, remove each otherLayer, and add all time layers
-    for(unsigned int i = 0; i < sizeof(otherLayers); i++) {
-      layer_remove_from_parent(text_layer_get_layer(otherLayers[i]));
-    }
-    for(unsigned int j = 0; j < sizeof(timeLayers); j++) {
-      layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(timeLayers[j]));
-    }
+    layer_remove_from_parent(text_layer_get_layer(s_dateprompt_layer));
+    layer_remove_from_parent(text_layer_get_layer(s_date_layer));
+    layer_remove_from_parent(text_layer_get_layer(s_loadprompt_layer));
+    layer_remove_from_parent(text_layer_get_layer(s_load_layer));
+    layer_remove_from_parent(text_layer_get_layer(s_networkprompt_layer));
+    layer_remove_from_parent(text_layer_get_layer(s_network_layer));
+    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_timeprompt_layer));
+    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_time_layer));
     showtime = true;
   }
 }
