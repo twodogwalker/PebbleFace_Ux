@@ -9,12 +9,15 @@
     "resources": {
         "media": [
             {
+                "file": "fonts/VERAMONO_BOLD_44",
+                "name": "VERAMONO_BOLD_44",
+                "trackingAdjust": -2,
+                "type": "font"
+            },
+            {
                 "characterRegex": "[0-9:A-Za-z$~.% ]",
                 "file": "fonts/VERAMONO_BOLD_20",
                 "name": "VERAMONO_BOLD_20",
-                "targetPlatforms": [
-                    "basalt"
-                ],
                 "trackingAdjust": -3,
                 "type": "font"
             }
@@ -23,6 +26,7 @@
     "sdkVersion": "3",
     "shortName": "Ux",
     "targetPlatforms": [
+        "aplite",
         "basalt"
     ],
     "uuid": "72645944-206b-4836-9f42-4bbdffee50ef",
