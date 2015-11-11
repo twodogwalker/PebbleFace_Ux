@@ -12,6 +12,7 @@ static TextLayer *s_loadprompt_layer;
 static TextLayer *s_load_layer;
 static TextLayer *s_networkprompt_layer;
 static TextLayer *s_network_layer;
+static AppTimer *s_timer;
 bool showtime;
 GColor foregrndColor;
 GColor backgrndColor;

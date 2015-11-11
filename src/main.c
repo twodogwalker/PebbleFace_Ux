@@ -107,22 +107,12 @@ static void main_window_unload(Window *window) {
   fonts_unload_custom_font(s_custom_font_veramono_20);
 }
 
-void tap_handler(AccelAxisType axis, int32_t direction){
+void change_visual_state(bool showtime) {
   //struct TextLayer *timeLayers[] = {s_timeprompt_layer, s_time_layer};
   //struct TextLayer *otherLayers[] = {s_dateprompt_layer, s_date_layer, s_loadprompt_layer, s_load_layer,
   //                                 s_networkprompt_layer, s_network_layer};
   // if time is currently shown, remove each timeLayer, and add all others
   if(showtime) {
-    layer_remove_from_parent(text_layer_get_layer(s_timeprompt_layer));
-    layer_remove_from_parent(text_layer_get_layer(s_time_layer));
-    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_dateprompt_layer));
-    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_date_layer));
-    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_loadprompt_layer));
-    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_load_layer));
-    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_networkprompt_layer));
-    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_network_layer));
-    showtime = false;
-  } else {
     layer_remove_from_parent(text_layer_get_layer(s_dateprompt_layer));
     layer_remove_from_parent(text_layer_get_layer(s_date_layer));
     layer_remove_from_parent(text_layer_get_layer(s_loadprompt_layer));
@@ -131,8 +121,28 @@ void tap_handler(AccelAxisType axis, int32_t direction){
     layer_remove_from_parent(text_layer_get_layer(s_network_layer));
     layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_timeprompt_layer));
     layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_time_layer));
-    showtime = true;
+  } else {
+    layer_remove_from_parent(text_layer_get_layer(s_timeprompt_layer));
+    layer_remove_from_parent(text_layer_get_layer(s_time_layer));
+    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_dateprompt_layer));
+    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_date_layer));
+    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_loadprompt_layer));
+    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_load_layer));
+    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_networkprompt_layer));
+    layer_add_child(window_get_root_layer(s_main_window), text_layer_get_layer(s_network_layer));
   }
+}
+
+static void timer_callback(void *data) {
+  // change back to time
+  change_visual_state(true);
+}
+
+void tap_handler(AccelAxisType axis, int32_t direction){
+  // change the visual state to show date (and other) info
+  change_visual_state(false);
+  // register a timer to return back to the time state
+  s_timer = app_timer_register(2000, timer_callback, NULL);
 }
 
 static void init() {
